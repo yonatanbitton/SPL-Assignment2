@@ -56,7 +56,6 @@ public class Warehouse { // Concurrent for the tools and their deferred. Vector 
 	* @return a deferred promise for the  requested tool
 	*/
     public synchronized Deferred<Tool> acquireTool(String type) { // TODO: 2
-    	//System.out.println("Acquire Tool of type " + type);
 		Deferred<Tool> d = new Deferred<>();
 		if (type.equals("gs-driver")) {
 				if (gcdCounter > 0) {
@@ -87,7 +86,6 @@ public class Warehouse { // Concurrent for the tools and their deferred. Vector 
 		}
 		else throw new NoSuchElementException("No such tool to aquire");
 		
-		//System.out.println("I'm at the end of aquireTool ~~~~~~~~~");
 		return d;
  	}
 
@@ -98,10 +96,6 @@ public class Warehouse { // Concurrent for the tools and their deferred. Vector 
 
 	// The deferred queue symbolize someone that was waiting to get the tool. So if someone was waiting, I give it back.
     public synchronized void releaseTool(Tool tool) {
-    	//System.out.println("Released Tool of type " + tool.getType());
-    	//Object o = new Object();
-		// if g!=null, it means that there was someone that was waiting with a deferred which he got from the warehouse,
-		// and now I can give him the tool. Else, I just increment the tools.
 		if (tool.getType().equals("gs-driver")) {
 				Deferred<Tool> g = GCDDeferred.poll();
 				if (g!=null) g.resolve(tool);
@@ -110,7 +104,6 @@ public class Warehouse { // Concurrent for the tools and their deferred. Vector 
  		}
 		if (tool.getType().equals("np-hammer")) {
 			Deferred<Tool> g = NextPrimDeferreds.poll();
-	    	//System.out.println("Released Tool of type " + tool.getType());
 			if (g!=null) g.resolve(tool);
 			else nextPrimeCounter=nextPrimeCounter+1;
 			
