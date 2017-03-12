@@ -19,12 +19,6 @@ public class WorkStealingThreadPool {
 	private VersionMonitor VM;
 	private ConcurrentLinkedDeque<Task<?>>[] queuesArray;
 	private boolean isShutDown;
-	// private ArrayList<Thread> threadsArray = new ArrayList<>();
-	// private ArrayList<Processor> processorsArray = new ArrayList<>();
-	// private VersionMonitor VM;
-	// private ConcurrentLinkedQueue<Task<?>>[] queuesArray = new
-	// ConcurrentLinkedQueue[0];
-	// private ArrayList<ConcurrentLinkedQueue> queuesArray = new ArrayList<>();
 
 	/**
 	 * creates a {@link WorkStealingThreadPool} which has nthreads
@@ -64,11 +58,7 @@ public class WorkStealingThreadPool {
 		double tryRandomID = Math.random() * processorsArray.size();
 		int randomID = ((int) tryRandomID);
 		queuesArray[randomID].add(task);
-		// System.out.println("The thread currently running " +
-		// Thread.currentThread().getId());
-		//System.out.println("~~~~~~~~~~~~~~~~Increased VM at pool::submit~~~~~~~~~~~~~~");
 		VM.inc();
-		// Array that hold the numbers of element in the queues.
 	}
 
 	/**
@@ -129,7 +119,6 @@ public class WorkStealingThreadPool {
 	 */
 	void addTask(Task<?> taskToAdd, int ToWhomID) {
 		queuesArray[ToWhomID].addFirst(taskToAdd);
-		//System.out.println("Increase VM at addTask");
 		VM.inc();
 	}
 
